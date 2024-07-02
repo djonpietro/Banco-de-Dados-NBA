@@ -5,10 +5,10 @@ app = Flask(__name__)
 
 def query_db(query):
     conn = mysql.connector.connect(
-        host='localhost',     # Substitua pelo seu host MySQL
-        user='root',          # Substitua pelo seu usuário MySQL
-        password='24120603',  # Substitua pela sua senha MySQL
-        database='NBA'        # Substitua pelo seu banco de dados MySQL
+        host='localhost',     
+        user='root',          
+        password='24120603',  
+        database='NBA'        
     )
     cursor = conn.cursor()
     cursor.execute(query)
