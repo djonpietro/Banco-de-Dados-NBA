@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 labelX = 'Cidade';
                 break;
             case 2:
-                labels = results.map(row => row[0]);
+                labels = results.map(row => `${row[0]}; ${row[2]}`);
                 data = results.map(row => row[3]);
                 labelX = 'Jogador';
                 labelY = 'Nº de Temporadas'
@@ -65,13 +65,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 labelY = 'Diferença de Pontos'
                 break;
             case 4:
-                labels = results.map(row => row[1]);
+                labels = results.map(row => `${row[0]} ${row[1]}`);
                 data = results.map(row => row[2]);
                 labelX = 'Time';
                 labelY = 'Nº de vitórias em casa'
                 break;
             case 5:
-                labels = results.map(row => row[2]);
+                labels = results.map(row => `${row[2]}: ${row[0]} ${row[1]}`);
                 data = results.map(row => row[3]);
                 labelX = 'Temporada';
                 labelY = 'Nº de vitórias na temporada'

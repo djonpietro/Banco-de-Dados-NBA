@@ -70,7 +70,7 @@ def consulta():
                                             ) as p
             on (e1.ID_Time, e2.ID_Time) = (p.ID_Time_Mandante, p.ID_Time_Visitante)
             order by Diferenca desc
-            limit 10;
+            limit 15;
         """,
         '4': """
             select e.Cidade,
@@ -108,7 +108,7 @@ def consulta():
                                                                       dt.Data_Ranking = r.Data_Ranking and
                                                                       dt.Max_Vitorias = r.Vitorias
                                                                 )
-            order by r.ID_Temporada limit 10;
+            order by r.ID_Temporada;
         """,
         '6': """
             with ID_Num_Temporadas as
