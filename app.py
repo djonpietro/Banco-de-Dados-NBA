@@ -1,14 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import mysql.connector
 
 app = Flask(__name__)
 
 def query_db(query):
     conn = mysql.connector.connect(
-        host='localhost',     
-        user='root',          
-        password='24120603',  
-        database='NBA'        
+        host='localhost',
+        user='root',
+        password='24120603',
+        database='NBA'
     )
     cursor = conn.cursor()
     cursor.execute(query)
@@ -50,14 +50,15 @@ def consulta():
                    e.Apelido,
                    ct.Num_Temporadas
             from Jogador j natural join Contagem_Temporada ct natural join Equipe e
-            order by Num_Temporadas desc;
+            order by Num_Temporadas desc limit 20;
         """,
         '3': """
             select p.Data_Jogo as Data_,
                    e1.Apelido as Mandante,
                    e2.Apelido as Visitante,
                    p.Pts_Casa as Pontos_Mandante,
-                   p.Pts_Visit as Pontos_Visitante
+                   p.Pts_Visit as Pontos_Visitante,
+                   (p.Pts_Visit - p.Pts_Casa) as Diferenca
             from (Equipe e1, Equipe e2) join (
                                             select ID_Time_Mandante,
                                                    ID_Time_Visitante,
@@ -68,7 +69,7 @@ def consulta():
                                             where Pts_Visit - Pts_Casa > 30
                                             ) as p
             on (e1.ID_Time, e2.ID_Time) = (p.ID_Time_Mandante, p.ID_Time_Visitante)
-            order by Pts_Visit - Pts_Casa desc
+            order by Diferenca desc
             limit 10;
         """,
         '4': """
