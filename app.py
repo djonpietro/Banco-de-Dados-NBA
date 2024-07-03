@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 import mysql.connector
 
 app = Flask(__name__)
 
-def query_db(query):
+def query_db(query, args=(), one=False):
     conn = mysql.connector.connect(
         host='localhost',
         user='root',
@@ -11,10 +11,11 @@ def query_db(query):
         database='NBA'
     )
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query, args)
     results = cursor.fetchall()
+    cursor.close()
     conn.close()
-    return results
+    return (results[0] if results else None) if one else results
 
 @app.route('/')
 def index():
@@ -50,7 +51,7 @@ def consulta():
                    e.Apelido,
                    ct.Num_Temporadas
             from Jogador j natural join Contagem_Temporada ct natural join Equipe e
-            order by Num_Temporadas desc limit 20;
+            order by Num_Temporadas desc limit 30;
         """,
         '3': """
             select p.Data_Jogo as Data_,
@@ -70,7 +71,7 @@ def consulta():
                                             ) as p
             on (e1.ID_Time, e2.ID_Time) = (p.ID_Time_Mandante, p.ID_Time_Visitante)
             order by Diferenca desc
-            limit 15;
+            limit 30;
         """,
         '4': """
             select e.Cidade,
@@ -121,7 +122,7 @@ def consulta():
             select j.Nome, intemp.Num_Temporadas, intemp.Num_Times
             from Jogador j left outer join ID_Num_Temporadas intemp
             on j.ID_Jogador = intemp.ID
-            order by intemp.Num_Temporadas desc, intemp.Num_Times desc limit 10;
+            order by intemp.Num_Temporadas desc, intemp.Num_Times desc limit 30;
         """
     }
     query = queries.get(query_number, '')

@@ -80,24 +80,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 labels = results.map(row => row[0]);
                 data = results.map(row => row[2]);
                 labelX = 'Jogador';
-                labelY = 'Numero de Times'
-                break;
-            default:
+                labelY = 'Nº de Times'
                 break;
         }
 
         chartOptions.scales.x.title.text = labelX;
 
-        let ctx = document.getElementById(`chart${queryNumber}`).getContext('2d');
-        new Chart(ctx, {
+        new Chart(document.getElementById(`chart${queryNumber}`), {
             type: chartType,
             data: {
                 labels: labels,
                 datasets: [{
                     label: labelY,
                     data: data,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }]
             },
