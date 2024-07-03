@@ -51,7 +51,7 @@ def consulta():
                    e.Apelido,
                    ct.Num_Temporadas
             from Jogador j natural join Contagem_Temporada ct natural join Equipe e
-            order by Num_Temporadas desc limit 30;
+            order by Num_Temporadas desc;
         """,
         '3': """
             select p.Data_Jogo as Data_,
@@ -70,8 +70,7 @@ def consulta():
                                             where Pts_Visit - Pts_Casa > 30
                                             ) as p
             on (e1.ID_Time, e2.ID_Time) = (p.ID_Time_Mandante, p.ID_Time_Visitante)
-            order by Diferenca desc
-            limit 30;
+            order by Diferenca desc;
         """,
         '4': """
             select e.Cidade,
@@ -85,7 +84,7 @@ def consulta():
                                 group by ID_Time_Mandante
                             ) as Mais_Venceram_Casa
             on Mais_Venceram_Casa.ID_Time_Mandante=e.ID_Time
-            order by Num_Jogos desc limit 10;
+            order by Num_Jogos desc;
         """,
         '5': """
             with Desempenho_Temporada as (
@@ -122,7 +121,7 @@ def consulta():
             select j.Nome, intemp.Num_Temporadas, intemp.Num_Times
             from Jogador j left outer join ID_Num_Temporadas intemp
             on j.ID_Jogador = intemp.ID
-            order by intemp.Num_Temporadas desc, intemp.Num_Times desc limit 30;
+            order by intemp.Num_Temporadas desc, intemp.Num_Times desc;
         """
     }
     query = queries.get(query_number, '')

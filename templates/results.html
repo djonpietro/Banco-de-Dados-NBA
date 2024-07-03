@@ -22,7 +22,10 @@
             </tbody>
         </table>
     {% elif query_number == '2' %}
+        <canvas id="chart2"></canvas>
         <input type="text" id="searchPlayer" onkeyup="searchInTable('searchPlayer', 0)" placeholder="Pesquisar pelo nome do jogador">
+        <button id="exportButton" class="btn btn-success">Exportar para CSV</button>
+        <a href="/" class="btn btn-secondary">Voltar</a>
         <table class="table table-striped" id="table2">
             <thead class="thead-dark">
                 <tr>
@@ -43,9 +46,11 @@
                 {% endfor %}
             </tbody>
         </table>
-        <canvas id="chart2"></canvas>
     {% elif query_number == '3' %}
+        <canvas id="chart3"></canvas>
         <input type="text" id="searchGame" onkeyup="searchInTable('searchGame', [1, 2])" placeholder="Pesquisar pelo apelido do mandante ou visitante">
+        <button id="exportButton" class="btn btn-success">Exportar para CSV</button>
+        <a href="/" class="btn btn-secondary">Voltar</a>
         <table class="table table-striped" id="table3">
             <thead class="thead-dark">
                 <tr>
@@ -70,9 +75,11 @@
                 {% endfor %}
             </tbody>
         </table>
-        <canvas id="chart3"></canvas>
     {% elif query_number == '4' %}
+        <canvas id="chart4"></canvas>
         <input type="text" id="searchTeam" onkeyup="searchInTable('searchTeam', 1)" placeholder="Pesquisar pelo apelido do time">
+        <button id="exportButton" class="btn btn-success">Exportar para CSV</button>
+        <a href="/" class="btn btn-secondary">Voltar</a>
         <table class="table table-striped" id="table4">
             <thead class="thead-dark">
                 <tr>
@@ -91,8 +98,10 @@
                 {% endfor %}
             </tbody>
         </table>
-        <canvas id="chart4"></canvas>
     {% elif query_number == '5' %}
+        <canvas id="chart5"></canvas>
+        <button id="exportButton" class="btn btn-success">Exportar para CSV</button>
+        <a href="/" class="btn btn-secondary">Voltar</a>
         <table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
@@ -113,9 +122,11 @@
                 {% endfor %}
             </tbody>
         </table>
-        <canvas id="chart5"></canvas>
     {% elif query_number == '6' %}
+        <canvas id="chart6"></canvas>
         <input type="text" id="searchPlayer6" onkeyup="searchInTable('searchPlayer6', 0)" placeholder="Pesquisar pelo nome do jogador">
+        <button id="exportButton" class="btn btn-success">Exportar para CSV</button>
+        <a href="/" class="btn btn-secondary">Voltar</a>
         <table class="table table-striped" id="table6">
             <thead class="thead-dark">
                 <tr>
@@ -134,30 +145,33 @@
                 {% endfor %}
             </tbody>
         </table>
-        <canvas id="chart6"></canvas>
     {% endif %}
-    <button id="exportButton" class="btn btn-success">Exportar para CSV</button>
-    <a href="/" class="btn btn-secondary">Voltar</a>
     <script>
         const results = {{ results|tojson }};
         const queryNumber = {{ query_number }};
-        
+    
         function searchInTable(inputId, columnIndexes) {
             const input = document.getElementById(inputId);
             const filter = input.value.toUpperCase();
             const table = document.getElementById(`table${queryNumber}`);
             const tr = table.getElementsByTagName("tr");
-
+    
             for (let i = 1; i < tr.length; i++) {
-                tr[i].style.display = "none";
+                let match = false;
                 let tds = tr[i].getElementsByTagName("td");
                 for (let j of (Array.isArray(columnIndexes) ? columnIndexes : [columnIndexes])) {
                     if (tds[j] && tds[j].innerText.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
+                        match = true;
                         break;
                     }
                 }
+                tr[i].style.display = match ? "" : "none";
             }
         }
+    
+        document.getElementById('searchInput').addEventListener('input', () => {
+            searchInTable('searchInput', [0, 1, 2]); // Ajuste os índices das colunas conforme necessário
+        });
     </script>
+    
 {% endblock %}

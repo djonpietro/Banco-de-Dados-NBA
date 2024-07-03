@@ -84,6 +84,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
         }
 
+        labels = labels.slice(0, 50);
+        data = data.slice(0, 50);
+
         chartOptions.scales.x.title.text = labelX;
 
         new Chart(document.getElementById(`chart${queryNumber}`), {
@@ -95,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     data: data,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
+                    borderWidth: 1,
                 }]
             },
             options: chartOptions
